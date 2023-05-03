@@ -10,13 +10,13 @@ import java.time.LocalDate;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.*;
-import com.codeborne.selenide.Configuration;
+//import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
 public class ChromeTest {
     @Test
     void shouldBookCardDeliveryHappyPath() {
 
-        Configuration.holdBrowserOpen = true;
+//        Configuration.holdBrowserOpen = true;
         open("http://localhost:9999/");
         SelenideElement block = $("fieldset");
         block.$("[data-test-id=city] input").sendKeys("Челябинск");
