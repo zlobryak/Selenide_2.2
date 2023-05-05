@@ -6,8 +6,11 @@ import com.codeborne.selenide.SelenideElement;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.Date;
 
 import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.$;
@@ -21,7 +24,11 @@ public class ChromeTest {
         open("http://localhost:9999/");
         SelenideElement block = $("fieldset");
         block.$("[data-test-id=city] input").sendKeys("Челябинск");
-        String date = String.valueOf(LocalDate.now().plusDays(3));
+
+        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        String date = dateFormat.format(
+                new Date(String.valueOf(LocalDate.now().plusDays(3)))
+    );
         block.$(".calendar-input input").setValue(date).sendKeys(Keys.ESCAPE);
         block.$("[data-test-id=name] input").setValue("Василий Пупкин");
         block.$("[data-test-id=phone] input").setValue("+79062421277");
