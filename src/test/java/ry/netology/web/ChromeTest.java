@@ -6,11 +6,9 @@ import com.codeborne.selenide.SelenideElement;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
 
 import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.$;
@@ -25,11 +23,11 @@ public class ChromeTest {
         SelenideElement block = $("fieldset");
         block.$("[data-test-id=city] input").sendKeys("Челябинск");
 
-        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        String date = dateFormat.format(
-                new Date(String.valueOf(LocalDate.now().plusDays(3)))
-    );
-        block.$(".calendar-input input").setValue(date).sendKeys(Keys.ESCAPE);
+
+        String dateToSet = LocalDate.now().plusDays(3)
+                .format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+
+        block.$(".calendar-input input").setValue(dateToSet).sendKeys(Keys.ESCAPE);
         block.$("[data-test-id=name] input").setValue("Василий Пупкин");
         block.$("[data-test-id=phone] input").setValue("+79062421277");
 
@@ -38,9 +36,10 @@ public class ChromeTest {
 
         $(".notification__content")
                 .shouldHave(Condition.text(
-                                "Встреча успешно забронирована на " + date),
+                                "Встреча успешно забронирована на " + dateToSet),
                         Duration.ofSeconds(15)
                 )
                 .shouldBe(Condition.visible);
     }
+
 }
